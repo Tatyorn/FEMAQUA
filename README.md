@@ -36,7 +36,6 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 1. **Clonar o repositório**
    ```bash
    git clone git@github.com:Tatyorn/FEMAQUA.git
-   cd desafio-biztrip
    ```
 
 2. **Instalar as dependências do Composer**
@@ -116,7 +115,7 @@ A API utiliza o Swagger para documentar os endpoints.
     ```bash
    ./vendor/bin/sail artisan migrate --seed
    ```
-- Você pode acessar as rotas autenticadas: [http://localhost:3000/tools-auth](http://localhost:3000/tools-auth)
+- Você pode acessar as rotas autenticadas: [http://localhost:3000/auth/tools](http://localhost:3000/auth/tools)
    ```bash
   email: admin@email.com
   senha: biztrip

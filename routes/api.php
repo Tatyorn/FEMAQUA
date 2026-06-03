@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthToolController;
 use App\Http\Controllers\ToolController;
+use Illuminate\Support\Facades\Route;
 
 Route::apiResource('tools', ToolController::class)
     ->only(['index', 'store', 'destroy']);
