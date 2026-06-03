@@ -105,7 +105,10 @@ A API utiliza o Swagger para documentar os endpoints.
 - `POST  /tools`: Cadastra uma nova ferramenta.
 - `DELETE /tools/{id}`: Remove uma ferramenta.
 
-*Nota: Existem também endpoints sob o prefixo `/api/auth/` que requerem autenticação via Bearer Token.*
+## Endpoints Autenticados
+- `GET  auth/tools`: Lista todas as ferramentas.
+- `POST  auth/tools`: Cadastra uma nova ferramenta.
+- `DELETE auth/tools/{id}`: Remove uma ferramenta.
 
 ---
 
