@@ -116,6 +116,7 @@ A API utiliza o Swagger para documentar os endpoints.
    ./vendor/bin/sail artisan migrate --seed
    ```
 - Você pode acessar as rotas autenticadas: [http://localhost:3000/auth/tools](http://localhost:3000/auth/tools)
+com a chave gerada na rota: `POST /login`
    ```bash
   email: admin@email.com
   senha: biztrip

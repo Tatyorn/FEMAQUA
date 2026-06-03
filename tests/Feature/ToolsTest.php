@@ -11,7 +11,6 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
-use function Pest\Laravel\post;
 use function Pest\Laravel\postJson;
 
 describe('without authentication', function () {
@@ -106,7 +105,7 @@ describe('without authentication', function () {
     it('should create tool successfully', function (array $data) {
         $this->seed(TagsSeeder::class);
 
-        $response = post(route('tools.store'), $data);
+        $response = postJson(route('tools.store'), $data);
 
         $tool = $data;
         unset($tool['tags']);
@@ -142,7 +141,7 @@ describe('with authentication', function () {
     beforeEach(function () {
         $this->user = User::factory()->create();
 
-        actingAs($this->user);
+        actingAs($this->user, 'sanctum');
     });
 
     it('should list tools with authentication', function () {
@@ -179,7 +178,7 @@ describe('with authentication', function () {
     it('should create tool successfully with authentication', function (array $data) {
         $this->seed(TagsSeeder::class);
 
-        $response = post(route('auth.tools.store'), $data);
+        $response = postJson(route('auth.tools.store'), $data);
 
         $tool = $data;
         unset($tool['tags']);

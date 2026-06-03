@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('tools', ToolController::class)
     ->only(['index', 'store', 'destroy']);
 
-Route::middleware('auth')->prefix('auth')->name('auth.')->group(function () {
+Route::middleware('auth:sanctum')->prefix('auth')->name('auth.')->group(function () {
     Route::apiResource('tools', AuthToolController::class)
         ->only(['index', 'store', 'destroy']);
 });
