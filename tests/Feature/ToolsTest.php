@@ -168,7 +168,7 @@ describe('with authentication', function () {
                 'tags' => $tool->tags->pluck('name')->toArray(),
             ])->toArray();
 
-        $response = get(route('tools-auth.index'))
+        $response = get(route('auth.tools.index'))
             ->assertOk();
 
         expect($response->json('data'))
@@ -179,7 +179,7 @@ describe('with authentication', function () {
     it('should create tool successfully with authentication', function (array $data) {
         $this->seed(TagsSeeder::class);
 
-        $response = post(route('tools-auth.store'), $data);
+        $response = post(route('auth.tools.store'), $data);
 
         $tool = $data;
         unset($tool['tags']);
@@ -192,7 +192,7 @@ describe('with authentication', function () {
     it('should delete tool successfully with authentication', function () {
         $tool = Tool::factory()->for($this->user)->create();
 
-        delete(route('tools-auth.destroy', $tool))
+        delete(route('auth.tools.destroy', $tool))
             ->assertOk();
 
         assertDatabaseMissing('tools', ['id' => $tool->id]);
@@ -204,7 +204,7 @@ describe('with authentication', function () {
         $tool = Tool::factory()->withTags()->for($user)->create();
 
         assertDatabaseCount('users', 2);
-        delete(route('tools-auth.destroy', $tool))
+        delete(route('auth.tools.destroy', $tool))
             ->assertForbidden();
 
         assertDatabaseHas('tools', ['id' => $tool->id]);
