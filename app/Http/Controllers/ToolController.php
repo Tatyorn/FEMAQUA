@@ -6,9 +6,11 @@ use App\Actions\CreateToolAction;
 use App\Http\Requests\StoreToolRequest;
 use App\Http\Resources\StoreToolResource;
 use App\Http\Resources\ListToolsResource;
+use App\Models\Tool;
 use App\Queries\ListToolsQuery;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Throwable;
 
 class ToolController extends Controller
@@ -28,5 +30,12 @@ class ToolController extends Controller
         $tool = $createToolAction->handle($request->validated());
 
         return new StoreToolResource($tool);
+    }
+
+    public function destroy(Tool $tool): JsonResponse
+    {
+        $tool->delete();
+
+        return response()->json();
     }
 }

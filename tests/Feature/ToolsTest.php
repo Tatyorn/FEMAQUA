@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Tag;
 use App\Models\Tool;
 use Database\Seeders\TagsSeeder;
 use function Pest\Laravel\assertDatabaseHas;
@@ -9,7 +10,7 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\postJson;
 
-it('should list and filter tools', function () {
+it('should list tools', function () {
     $tools = Tool::factory()
         ->withTags()
         ->count(5)
@@ -29,6 +30,72 @@ it('should list and filter tools', function () {
     expect($response->json('data'))
         ->toHaveCount(count($tools))
         ->toContain(...$tools);
+});
+
+it('should list and filter tools', function () {
+    $this->seed(TagsSeeder::class);
+
+    $tagsPhp = Tag::query()
+        ->whereIn('name', ['web', 'php'])
+        ->pluck('id')
+        ->toArray();
+
+    $toolsForFilterLaravel = Tool::factory()
+        ->withTags($tagsPhp)
+        ->count(2)
+        ->create()
+        ->load('tags')
+        ->map(fn ($tool) => [
+            'title'       => $tool->title,
+            'link'        => $tool->link,
+            'description' => $tool->description,
+            'tags'        => $tool->tags->pluck('name')->toArray(),
+        ])->toArray();
+
+    $tagsNode = Tag::query()
+        ->whereIn('name', ['node', 'web'])
+        ->pluck('id')
+        ->toArray();
+
+    $toolsForFilterNode = Tool::factory()
+        ->withTags($tagsNode)
+        ->count(3)
+        ->create()
+        ->load('tags')
+        ->map(fn ($tool) => [
+            'title'       => $tool->title,
+            'link'        => $tool->link,
+            'description' => $tool->description,
+            'tags'        => $tool->tags->pluck('name')->toArray(),
+        ])->toArray();
+
+    $response = get(route('tools.index', ['tag' => 'php']))
+        ->assertOk();
+
+    expect($response->json('data'))
+        ->toHaveCount(2)
+        ->toContain(...$toolsForFilterLaravel)
+        ->and(route('tools.index', ['tag' => 'php']))
+        ->toBe(config('app.url').'/tools?tag=php');
+
+    $response = get(route('tools.index', ['tag' => 'node']));
+
+    expect($response->json('data'))
+        ->toHaveCount(3)
+        ->toContain(...$toolsForFilterNode)
+        ->and(route('tools.index', ['tag' => 'node']))
+        ->toBe(config('app.url').'/tools?tag=node');
+
+    $allTools = array_merge($toolsForFilterLaravel, $toolsForFilterNode);
+
+    $response = get(route('tools.index', ['tag' => 'web']));
+
+    expect($response->json('data'))
+        ->toHaveCount(5)
+        ->toContain(...$allTools)
+        ->and(route('tools.index', ['tag' => 'web']))
+        ->toBe(config('app.url').'/tools?tag=web');
+
 });
 
 it('should create tool successfully', function (array $data) {
@@ -55,12 +122,12 @@ it('should validate fields and return 422', function (array $data, string $field
     assertDatabaseMissing('tools', $data);
 })->with('invalid tool data');
 
-//it('should delete tool successfully', function () {
-//    $tool = Tool::factory()->create();
-//
-//    delete(route('tools.index'))
-//        ->assertOk();
-//
-//    assertDatabaseMissing('tools', $tool);
-//    assertDatabaseMissing('tag_tool', ['tool_id' => $tool->id]);
-//});
+it('should delete tool successfully', function () {
+    $tool = Tool::factory()->create();
+
+    delete(route('tools.destroy', $tool))
+        ->assertOk();
+
+    assertDatabaseMissing('tools', ['id' => $tool->id]);
+    assertDatabaseMissing('tag_tool', ['tool_id' => $tool->id]);
+});

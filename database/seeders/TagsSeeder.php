@@ -13,7 +13,7 @@ class TagsSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            ['name' => 'PHP'],
+            ['name' => 'php'],
             ['name' => 'organization'],
             ['name' => 'planning'],
             ['name' => 'collaboration'],
