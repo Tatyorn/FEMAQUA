@@ -29,7 +29,7 @@ class TagsSeeder extends Seeder
             ['name' => 'framework'],
             ['name' => 'http2'],
             ['name' => 'https'],
-            ['name' => 'localhost']
+            ['name' => 'localhost'],
         ];
 
         Tag::query()->insert($tags);

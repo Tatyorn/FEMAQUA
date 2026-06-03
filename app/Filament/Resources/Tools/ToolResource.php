@@ -52,6 +52,6 @@ class ToolResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return (new ListToolsQuery());
+        return new ListToolsQuery;
     }
 }

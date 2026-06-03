@@ -30,7 +30,7 @@ class ListToolsQuery extends Builder
                 'filter' => array_merge(
                     $request->input('filter', []),
                     $queryParams
-                )
+                ),
             ]);
         }
     }

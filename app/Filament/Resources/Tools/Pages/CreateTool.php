@@ -12,7 +12,6 @@ class CreateTool extends CreateRecord
 {
     protected static string $resource = ToolResource::class;
 
-
     /**
      * @throws Throwable
      */

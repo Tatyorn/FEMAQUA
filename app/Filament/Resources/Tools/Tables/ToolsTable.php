@@ -27,7 +27,7 @@ class ToolsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('tags.name')
-                ->label('Tags'),
+                    ->label('Tags'),
             ])
             ->filters([
                 //

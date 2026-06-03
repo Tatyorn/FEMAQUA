@@ -23,7 +23,7 @@ class StoreToolResource extends JsonResource
             'title' => $this->title,
             'link' => $this->link,
             'description' => $this->description,
-            'tags' => $this->tags?->pluck('name')->toArray(),
+            'tags' => $this->tags->pluck('name')->toArray(),
         ];
     }
 }

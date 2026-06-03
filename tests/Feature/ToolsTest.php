@@ -23,10 +23,10 @@ describe('without authentication', function () {
 
         $tools = $tools->load('tags')
             ->map(fn ($tool) => [
-                'title'       => $tool->title,
-                'link'        => $tool->link,
+                'title' => $tool->title,
+                'link' => $tool->link,
                 'description' => $tool->description,
-                'tags'        => $tool->tags->pluck('name')->toArray(),
+                'tags' => $tool->tags->pluck('name')->toArray(),
             ])->toArray();
 
         $response = get(route('tools.index'))
@@ -51,10 +51,10 @@ describe('without authentication', function () {
             ->create()
             ->load('tags')
             ->map(fn ($tool) => [
-                'title'       => $tool->title,
-                'link'        => $tool->link,
+                'title' => $tool->title,
+                'link' => $tool->link,
                 'description' => $tool->description,
-                'tags'        => $tool->tags->pluck('name')->toArray(),
+                'tags' => $tool->tags->pluck('name')->toArray(),
             ])->toArray();
 
         $tagsNode = Tag::query()
@@ -68,10 +68,10 @@ describe('without authentication', function () {
             ->create()
             ->load('tags')
             ->map(fn ($tool) => [
-                'title'       => $tool->title,
-                'link'        => $tool->link,
+                'title' => $tool->title,
+                'link' => $tool->link,
                 'description' => $tool->description,
-                'tags'        => $tool->tags->pluck('name')->toArray(),
+                'tags' => $tool->tags->pluck('name')->toArray(),
             ])->toArray();
 
         $response = get(route('tools.index', ['tag' => 'php']))
@@ -162,10 +162,10 @@ describe('with authentication', function () {
 
         $tools = $tools->load('tags')
             ->map(fn ($tool) => [
-                'title'       => $tool->title,
-                'link'        => $tool->link,
+                'title' => $tool->title,
+                'link' => $tool->link,
                 'description' => $tool->description,
-                'tags'        => $tool->tags->pluck('name')->toArray(),
+                'tags' => $tool->tags->pluck('name')->toArray(),
             ])->toArray();
 
         $response = get(route('tools-auth.index'))
@@ -211,4 +211,3 @@ describe('with authentication', function () {
         assertDatabaseHas('tag_tool', ['tool_id' => $tool->id]);
     });
 });
-

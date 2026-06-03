@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Observers\ToolObserver;
 use Database\Factories\ToolFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,8 +40,7 @@ class Tool extends Model
         return $this->belongsTo(User::class);
     }
 
-    #[Scope]
-    public function byTag(Builder $query, string|array $tags): void
+    public function scopeByTag(Builder $query, string|array $tags): void
     {
         if (is_string($tags)) {
             $tags = collect(explode(',', $tags))
@@ -56,8 +54,7 @@ class Tool extends Model
         );
     }
 
-    #[Scope]
-    public function byUser(Builder $query): void
+    public function scopeByUser(Builder $query): void
     {
         if (auth()->check()) {
             $query->where('user_id', auth()->id());
