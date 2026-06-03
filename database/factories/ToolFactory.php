@@ -28,8 +28,9 @@ class ToolFactory extends Factory
     public function withTags(?array $tagsIds = null): static
     {
         return $this->afterCreating(function (Tool $tool) use ($tagsIds) {
-            $tagsIds = collect($tagsIds)
-                ?? Tag::factory()->count(3)->create()->pluck('id');
+            $tagsIds = $tagsIds
+                ? collect($tagsIds)
+                : Tag::factory()->count(3)->create()->pluck('id');
 
             $tool->tags()->attach($tagsIds);
         });
