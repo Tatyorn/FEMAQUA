@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Tag;
 use App\Models\Tool;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

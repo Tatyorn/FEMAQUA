@@ -20,6 +20,14 @@ class StoreToolRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:5000'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['required', 'string', 'exists:tags,name'],
+            'user_id' => ['nullable', 'exists:users,id'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->user()?->id) {
+            $this->merge(['user_id' => $this->user()->id]);
+        }
     }
 }

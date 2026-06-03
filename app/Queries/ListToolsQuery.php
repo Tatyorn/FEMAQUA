@@ -10,7 +10,10 @@ class ListToolsQuery extends QueryBuilder
 {
     public function __construct()
     {
-        $query = Tool::query()->with('tags');
+        $query = Tool::query()
+            ->byUser()
+            ->with('tags');
+
         parent::__construct($query);
 
         $this->allowedFilters(AllowedFilter::scope('tag', 'byTag'))
