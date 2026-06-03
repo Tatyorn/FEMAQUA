@@ -1,58 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FEMAQUA (Ferramentas Maravilhosas Que Adoro) API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Uma API para gerenciamento de ferramentas (Ferramentas Maravilhosas Que Adoro). Este projeto permite cadastrar, listar, filtrar e remover ferramentas.
 
-## About Laravel
+## Desafio
+Sua tarefa é construir uma API e banco de dados para a aplicação FEMAQUA (Ferramentas Maravilhosas Que Adoro). A aplicação é um simples repositório para gerenciar ferramentas com seus respectivos nomes, links, descrições e tags.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A aplicação deve ser construída utilizando Node (JS) ou Laravel (PHP) e MySql ou PostgreSql como solução de banco de dados. Fique livre para utilizar frameworks e ferramentas adicionais de sua preferência.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+A API deverá ser documentada utilizando o Swagger.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tecnologias Utilizadas
 
-## Learning Laravel
+- **PHP 8.5**
+- **Laravel 13**
+- **Laravel Sail** (Docker)
+- **Spatie Laravel Query Builder** (Filtros e Ordenação)
+- **Laravel Octane** (Performance)
+- **L5-Swagger** (Documentação OpenAPI 3.0)
+- **MySQL**
+- **Pest** (Testes)
+- **Filament** (Painel administrativo)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Pré-requisitos
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Antes de começar, você precisará ter instalado em sua máquina:
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## Instalação e Configuração
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-```bash
-composer require laravel/boost --dev
+1. **Clonar o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd desafio-biztrip
+   ```
 
-php artisan boost:install
-```
+2. **Instalar as dependências do Composer**
+   (Caso não tenha o PHP instalado localmente, você pode usar uma imagem Docker temporária)
+   ```bash
+   docker run --rm \
+       -u "$(id -u):$(id -g)" \
+       -v "$(pwd):/var/www/html" \
+       -w "/var/www/html" \
+       laravelsail/php83-composer:latest \
+       composer install --ignore-platform-reqs
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+3. **Configurar o arquivo .env**
+   ```bash
+   cp .env.example .env
+   ```
 
-## Contributing
+4. **Subir os containers com Laravel Sail**
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. **Gerar a chave da aplicação**
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ```
 
-## Code of Conduct
+6. **Executar as Migrations**
+   ```bash
+   ./vendor/bin/sail artisan migrate --seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Como Executar
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Após seguir os passos de instalação, a aplicação estará disponível em: [http://localhost:3000](http://localhost:3000).
 
-## License
+### Comandos úteis do Sail:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Parar os containers:** `./vendor/bin/sail stop`
+- **Iniciar os containers:** `./vendor/bin/sail up -d`
+- **Executar testes:** `./vendor/bin/sail test`
+- **Artisan:** `./vendor/bin/sail artisan <comando>`
+
+---
+
+## Documentação da API (Swagger)
+
+A API utiliza o Swagger para documentar os endpoints.
+
+1. **Gerar a documentação:**
+   Sempre que houver alterações nas anotações da API, execute:
+   ```bash
+   ./vendor/bin/sail artisan l5-swagger:generate
+   ```
+
+2. **Acessar a interface UI:**
+   A documentação interativa pode ser acessada em: [http://localhost:3000/api/documentation](http://localhost:3000/api/documentation)
+
+---
+
+## Endpoints Principais
+
+- `GET  /tools`: Lista todas as ferramentas (suporta busca por tag e ordenação).
+- `POST  /tools`: Cadastra uma nova ferramenta.
+- `DELETE /tools/{id}`: Remove uma ferramenta.
+
+*Nota: Existem também endpoints sob o prefixo `/api/auth/` que requerem autenticação via Bearer Token.*
+
+---
+
+## Acesso às rotas autenticadas
+
+- Após instalar os pacotes e executar as migrations e seeders
+    ```bash
+   ./vendor/bin/sail artisan migrate --seed
+   ```
+- Você pode acessar as rotas autenticadas: [http://localhost:3000/tools-auth](http://localhost:3000/tools-auth)
+   ```bash
+  email: admin@email.com
+  senha: biztrip
+  ```
+- você também pode acessar o painel de admin em [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
