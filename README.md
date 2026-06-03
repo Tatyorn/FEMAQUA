@@ -20,6 +20,7 @@ A API deverá ser documentada utilizando o Swagger.
 - **MySQL**
 - **Pest** (Testes)
 - **Filament** (Painel administrativo)
+- **Sanctum** (autorização)
 
 ## Pré-requisitos
 
