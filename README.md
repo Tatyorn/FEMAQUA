@@ -35,7 +35,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
 1. **Clonar o repositório**
    ```bash
-   git clone <url-do-repositorio>
+   git clone git@github.com:Tatyorn/FEMAQUA.git
    cd desafio-biztrip
    ```
 
