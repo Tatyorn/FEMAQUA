@@ -7,6 +7,7 @@ use Database\Factories\ToolFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,5 +65,12 @@ class Tool extends Model
             $query->where('user_id', null);
         }
 
+    }
+
+    public function title(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => trim(strtolower($value)),
+        );
     }
 }

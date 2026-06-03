@@ -10,13 +10,19 @@ use App\Models\Tool;
 use App\Queries\ListToolsQuery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
 class ToolController extends Controller
 {
     public function index(ListToolsQuery $toolsQuery): AnonymousResourceCollection
     {
-        $tools = $toolsQuery->get();
+        $tools = QueryBuilder::for($toolsQuery)
+            ->allowedFilters(AllowedFilter::scope('tag', 'byTag'))
+            ->defaultSort('-id')
+            ->allowedSorts('created_at', 'title', 'id')
+            ->get();
 
         return ListToolsResource::collection($tools);
     }

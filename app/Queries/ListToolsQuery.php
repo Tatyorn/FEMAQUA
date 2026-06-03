@@ -3,10 +3,9 @@
 namespace App\Queries;
 
 use App\Models\Tool;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
-class ListToolsQuery extends QueryBuilder
+class ListToolsQuery extends Builder
 {
     public function __construct()
     {
@@ -14,10 +13,7 @@ class ListToolsQuery extends QueryBuilder
             ->byUser()
             ->with('tags');
 
-        parent::__construct($query);
-
-        $this->allowedFilters(AllowedFilter::scope('tag', 'byTag'))
-            ->defaultSort('-id')
-            ->allowedSorts('created_at', 'title', 'id');
+        parent::__construct($query->getQuery());
+        $this->setModel($query->getModel());
     }
 }

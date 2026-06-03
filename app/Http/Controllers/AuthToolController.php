@@ -11,6 +11,8 @@ use App\Queries\ListToolsQuery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
 class AuthToolController extends Controller
@@ -19,7 +21,11 @@ class AuthToolController extends Controller
     {
         Gate::authorize('viewAny', Tool::class);
 
-        $tools = $toolsQuery->get();
+        $tools = QueryBuilder::for($toolsQuery)
+            ->allowedFilters(AllowedFilter::scope('tag', 'byTag'))
+            ->defaultSort('-id')
+            ->allowedSorts('created_at', 'title', 'id')
+            ->get();
 
         return ListToolsResource::collection($tools);
     }
