@@ -27,7 +27,6 @@ class TagsSeeder extends Seeder
             ['name' => 'rest'],
             ['name' => 'web'],
             ['name' => 'framework'],
-            ['name' => 'node'],
             ['name' => 'http2'],
             ['name' => 'https'],
             ['name' => 'localhost']
