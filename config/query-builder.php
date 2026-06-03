@@ -10,7 +10,7 @@ return [
      */
     'parameters' => [
         'include' => 'include',
-        'filter' => null,
+        'filter' => 'filter',
         'sort' => 'sort',
         'fields' => 'fields',
         'append' => 'append',

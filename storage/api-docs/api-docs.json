@@ -1,0 +1,312 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "VUTTR (Very Useful Tools to Remember) API",
+        "description": "API para gerenciamento de ferramentas úteis",
+        "contact": {
+            "email": "suporte@exemplo.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Servidor Principal"
+        }
+    ],
+    "paths": {
+        "/auth/tools": {
+            "get": {
+                "tags": [
+                    "Tools (Autenticado)"
+                ],
+                "summary": "Listar e filtrar ferramentas",
+                "description": "Retorna a lista de ferramentas pertencentes ao usuário autenticado. Permite ordenação e filtro por tag.",
+                "operationId": "46eed7f453a81bf895de0f66edd1d4b7",
+                "parameters": [
+                    {
+                        "name": "tag",
+                        "in": "query",
+                        "description": "Filtra as ferramentas por nome de tag (ex: php)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Ordena os resultados. Use o sinal de menos para decrescente (ex: -id, title, created_at)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "-id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de ferramentas retornada com sucesso."
+                    },
+                    "401": {
+                        "description": "Não autenticado."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tools (Autenticado)"
+                ],
+                "summary": "Cadastrar uma nova ferramenta",
+                "description": "Cria uma nova ferramenta associada ao usuário autenticado.",
+                "operationId": "b46e98d86bf0c403c01125e910cbfd76",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "link"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Título da ferramenta",
+                                        "type": "string",
+                                        "example": "Notion"
+                                    },
+                                    "link": {
+                                        "description": "Link da ferramenta",
+                                        "type": "string",
+                                        "example": "https://notion.so"
+                                    },
+                                    "description": {
+                                        "description": "Descrição opcional",
+                                        "type": "string",
+                                        "example": "All-in-one workspace"
+                                    },
+                                    "tags": {
+                                        "description": "Array de tags",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "organization",
+                                            "planning"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ferramenta criada com sucesso."
+                    },
+                    "422": {
+                        "description": "Erro de validação nos campos enviados."
+                    },
+                    "401": {
+                        "description": "Não autenticado."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/tools/{id}": {
+            "delete": {
+                "tags": [
+                    "Tools (Autenticado)"
+                ],
+                "summary": "Remover uma ferramenta",
+                "description": "Exclui uma ferramenta do banco de dados se ela pertencer ao usuário autenticado.",
+                "operationId": "a0ac0bd4b895e07bc321a56bc56a46c7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID numérico da ferramenta a ser deletada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ferramenta removida com sucesso."
+                    },
+                    "403": {
+                        "description": "Usuário não tem permissão para deletar esta ferramenta."
+                    },
+                    "401": {
+                        "description": "Não autenticado."
+                    },
+                    "404": {
+                        "description": "Ferramenta não encontrada."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tools": {
+            "get": {
+                "tags": [
+                    "Tools"
+                ],
+                "summary": "Listar e filtrar ferramentas",
+                "description": "Retorna a lista de todas as ferramentas. Permite ordenação e filtro por tag.",
+                "operationId": "40a2c0b49717f5bc669c06a216e5f559",
+                "parameters": [
+                    {
+                        "name": "tag",
+                        "in": "query",
+                        "description": "Filtra as ferramentas por nome de tag (ex: php)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Ordena os resultados. Use o sinal de menos para decrescente (ex: -id, title, created_at)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "-id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de ferramentas retornada com sucesso."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tools"
+                ],
+                "summary": "Cadastrar uma nova ferramenta",
+                "description": "Cria uma nova ferramenta no sistema.",
+                "operationId": "d89f8bdc57fdef466cf1440b6624ac61",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "link"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Título da ferramenta",
+                                        "type": "string",
+                                        "example": "Notion"
+                                    },
+                                    "link": {
+                                        "description": "Link da ferramenta",
+                                        "type": "string",
+                                        "example": "https://notion.so"
+                                    },
+                                    "description": {
+                                        "description": "Descrição opcional",
+                                        "type": "string",
+                                        "example": "All-in-one workspace"
+                                    },
+                                    "tags": {
+                                        "description": "Array de tags",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "organization",
+                                            "planning"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ferramenta criada com sucesso."
+                    },
+                    "422": {
+                        "description": "Erro de validação nos campos enviados."
+                    }
+                }
+            }
+        },
+        "/tools/{id}": {
+            "delete": {
+                "tags": [
+                    "Tools"
+                ],
+                "summary": "Remover uma ferramenta",
+                "description": "Exclui uma ferramenta do banco de dados.",
+                "operationId": "30f212de8a767ee8f9fc71dc336fa131",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID numérico da ferramenta a ser deletada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ferramenta removida com sucesso."
+                    },
+                    "404": {
+                        "description": "Ferramenta não encontrada."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Insira o token de autenticação (Sanctum/API) no formato: Bearer {token}",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tools (Autenticado)",
+            "description": "Endpoints de gerenciamento de ferramentas do usuário autenticado"
+        },
+        {
+            "name": "Tools",
+            "description": "Endpoints de gerenciamento de ferramentas"
+        }
+    ]
+}
