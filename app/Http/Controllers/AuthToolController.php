@@ -6,6 +6,7 @@ use App\Actions\CreateToolAction;
 use App\Http\Requests\StoreToolRequest;
 use App\Http\Resources\ListToolsResource;
 use App\Http\Resources\StoreToolResource;
+use App\Http\Traits\HasQueryFilters;
 use App\Models\Tool;
 use App\Queries\ListToolsQuery;
 use Illuminate\Http\JsonResponse;
@@ -20,6 +21,8 @@ use Throwable;
 #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', description: 'Insira o token de autenticação (Sanctum/API) no formato: Bearer {token}', bearerFormat: 'JWT', scheme: 'bearer')]
 class AuthToolController extends Controller
 {
+    use HasQueryFilters;
+
     #[OA\Get(
         path: '/auth/tools',
         description: 'Retorna a lista de ferramentas pertencentes ao usuário autenticado. Permite ordenação e filtro por tag.',
@@ -34,6 +37,8 @@ class AuthToolController extends Controller
     public function index(ListToolsQuery $toolsQuery): AnonymousResourceCollection
     {
         Gate::authorize('viewAny', Tool::class);
+
+        $this->setFilters();
 
         $tools = QueryBuilder::for($toolsQuery)
             ->allowedFilters(AllowedFilter::scope('tag', 'byTag'))

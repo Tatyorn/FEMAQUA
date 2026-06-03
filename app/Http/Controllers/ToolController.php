@@ -6,6 +6,7 @@ use App\Actions\CreateToolAction;
 use App\Http\Requests\StoreToolRequest;
 use App\Http\Resources\ListToolsResource;
 use App\Http\Resources\StoreToolResource;
+use App\Http\Traits\HasQueryFilters;
 use App\Models\Tool;
 use App\Queries\ListToolsQuery;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +19,8 @@ use Throwable;
 #[OA\Tag(name: 'Tools', description: 'Endpoints de gerenciamento de ferramentas')]
 class ToolController extends Controller
 {
+    use HasQueryFilters;
+
     #[OA\Get(
         path: '/tools',
         description: 'Retorna a lista de todas as ferramentas. Permite ordenação e filtro por tag.',
@@ -29,6 +32,8 @@ class ToolController extends Controller
     #[OA\Response(response: 200, description: 'Lista de ferramentas retornada com sucesso.')]
     public function index(ListToolsQuery $toolsQuery): AnonymousResourceCollection
     {
+        $this->setFilters();
+
         $tools = QueryBuilder::for($toolsQuery)
             ->allowedFilters(AllowedFilter::scope('tag', 'byTag'))
             ->defaultSort('-id')
