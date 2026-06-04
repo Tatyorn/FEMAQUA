@@ -178,7 +178,8 @@ describe('with authentication', function () {
     it('should create tool successfully with authentication', function (array $data) {
         $this->seed(TagsSeeder::class);
 
-        $response = postJson(route('auth.tools.store'), $data);
+        $response = postJson(route('auth.tools.store'), $data)
+            ->assertCreated();
 
         $tool = $data;
         unset($tool['tags']);

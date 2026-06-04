@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateToolAction;
-use App\Http\Requests\StoreToolRequest;
+use App\Http\Requests\AuthStoreToolRequest;
 use App\Http\Resources\ListToolsResource;
 use App\Http\Resources\StoreToolResource;
 use App\Http\Traits\HasQueryFilters;
@@ -74,10 +74,8 @@ class AuthToolController extends Controller
     #[OA\Response(response: 201, description: 'Ferramenta criada com sucesso.')]
     #[OA\Response(response: 422, description: 'Erro de validação nos campos enviados.')]
     #[OA\Response(response: 401, description: 'Não autenticado.')]
-    public function store(StoreToolRequest $request, CreateToolAction $createToolAction): StoreToolResource
+    public function store(AuthStoreToolRequest $request, CreateToolAction $createToolAction): StoreToolResource
     {
-        Gate::authorize('create', Tool::class);
-
         $tool = $createToolAction->handle($request->validated());
 
         return new StoreToolResource($tool);
